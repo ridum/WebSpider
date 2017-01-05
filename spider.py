@@ -49,12 +49,12 @@ for persection in combine:
         p1index = text.index(p1)
         # print p1index
         p1length = len(p1)
-        # print p1length
+     
 
         p2 = 'Currently Registered:'
         p2index = text.index(p2)
         # print p2index
-        totalremain = text[p1index + p1length:p2index]
+        totalremain ='currently remaining: '+ text[p1index + p1length:p2index]
         print sectionname
         print totalremain
         # print(element)
@@ -72,5 +72,4 @@ fout.write("</body>")
 fout.write("</html>")
 fout.close()
 
-print(coursepages)
 
