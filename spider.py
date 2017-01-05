@@ -1,27 +1,22 @@
 from urllib2 import urlopen
 from bs4 import BeautifulSoup
 
-
-html = urlopen("https://courses.students.ubc.ca/cs/main?pname=subjarea&tname=subjareas&req=1&dept=CPSC")
-bsObj = BeautifulSoup(html)
-array = bsObj.table.find_all('a')
-
-
+htmlarray = []
+htmlarray.append(urlopen("https://courses.students.ubc.ca/cs/main?pname=subjarea&tname=subjareas&req=1&dept=CPSC"))
 coursepages = []
-for element in array:
-    # fout.write(element.get_text())
-    # fout.write("<br>")
-    # fout.write("https://courses.students.ubc.ca/"+element.get('href'))
-    # fout.write("<br>")
-    coursepages.append("https://courses.students.ubc.ca/"+element.get('href'))
-    # print "https://courses.students.ubc.ca/"+element.get('href')
-    # print element.get_text()
+for html in htmlarray:
+    bsObj = BeautifulSoup(html, "html.parser")
+    array = bsObj.table.find_all('a')
+
+    for element in array:
+        coursepages.append("https://courses.students.ubc.ca/" + element.get('href'))
+
 
 
 combine = []
 for percourse in coursepages:
     course = urlopen(percourse)
-    courseObj = BeautifulSoup(course)
+    courseObj = BeautifulSoup(course, "html.parser")
     array = courseObj.table.find_all('')
     courses = courseObj.find_all('td')
     sections = []
@@ -31,10 +26,9 @@ for percourse in coursepages:
         if courselink != None:
             header = "https://courses.students.ubc.ca/"
             section = courselink.attrs['href']
-            # coursepages.append("https://courses.students.ubc.ca/" + element.get('href'))
             sections.append("https://courses.students.ubc.ca/" + courselink.attrs['href'])
 
-    # print sections
+
     combine.extend(sections)
 
 
@@ -46,7 +40,7 @@ fout.write("<table>")
 for persection in combine:
     try:
         section = urlopen(persection)
-        sectionObj = BeautifulSoup(section)
+        sectionObj = BeautifulSoup(section, "html.parser")
         sectionname = sectionObj.find('h4').get_text()
 
         text = sectionObj.get_text()
