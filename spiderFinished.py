@@ -64,7 +64,8 @@ for persection in combine:
         cur.execute(query)
         db.commit()
         info = [sectionname, totalremain]
-    except Exception:
-        a = 1
+    except Exception,e:
+        print "something wrong happened"
+        print str(e)
 print "Parser done."
 db.close()
